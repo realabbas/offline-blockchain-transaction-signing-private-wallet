@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "txos",
+    "slug": "txos",
+    "version": "1.0.0",
+    "sdkVersion": "44.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "android": {
+      "package": "com.realabbas5.txos"
+    }
+  }
+}
