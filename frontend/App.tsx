@@ -1,7 +1,10 @@
+/* eslint-disable */
 import { BarCodeScanner } from "expo-barcode-scanner";
 import React, { useState } from "react";
-import { Button, Dimensions, Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
+import QRCode from "react-native-qrcode-svg";
 import Web3 from "web3";
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const web3 = new Web3(
@@ -9,12 +12,28 @@ const web3 = new Web3(
     "https://ropsten.infura.io/v3/5c61f2cfeb084d82ba607cdaaa4148b1"
 );
 
+const txParams = {
+  nonce: "0x00",
+  gasPrice: "0x09184e72a000",
+  gasLimit: "0x28000",
+  to: "0x0000000000000000000000000000000000000000",
+  value: "0x00",
+  data: "0x7f7465737432000000000000000000000000000000000000000000000000000000600057",
+};
+
 export default function App(): JSX.Element {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [qrData, setQrData] = useState(null);
   const [keystore, setKeyStore] = useState(null);
 
+  let objJsonStr = JSON.stringify(txParams);
+  let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+  console.log("objJsonB64", objJsonB64, typeof objJsonB64);
+
+  var buf = Buffer.from(JSON.stringify(txParams));
+
+  console.log("buf");
   // console.warn(Web3.version);
 
   // React.useEffect(()=>{
@@ -66,6 +85,7 @@ export default function App(): JSX.Element {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
       <View>
@@ -84,12 +104,20 @@ export default function App(): JSX.Element {
         }}
       >
         {scanned && (
-          <Button
-            title={"Tap to Scan Again"}
-            onPress={() => setScanned(false)}
-          />
+          <React.Fragment>
+            <QRCode
+              value={JSON.stringify(txParams)}
+              size={200}
+              logoBackgroundColor="transparent"
+            />
+            {/* <Button
+              style={{ marginTop: 50 }}
+              title={"Tap to Scan Again"}
+              onPress={() => setScanned(false)}
+            /> */}
+          </React.Fragment>
         )}
-        <Text>{qrData && JSON.stringify(qrData)}</Text>
+        {/* <Text>{qrData && JSON.stringify(qrData)}</Text> */}
       </View>
     </View>
   );
