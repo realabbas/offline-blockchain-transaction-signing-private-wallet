@@ -2,8 +2,20 @@
 import LottieView from 'lottie-react-native';
 import React from "react";
 import { StatusBar, Text, TouchableOpacity, View } from "react-native";
+import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
+
+const item = (focusWord, sentence) => {
+    return (<View style={styles.textContainer}>
+        <Text style={styles.text}>
+            <Text style={styles.focusText}>
+                {focusWord}
+            </Text>
+            {sentence}
+        </Text>
+    </View>)
+}
 
 const Splash = () => {
     return (
@@ -15,17 +27,12 @@ const Splash = () => {
                 backgroundColor="transparent"
                 translucent={true}
             />
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>
-                    <Text style={styles.focusText}>
-                        Secure
-                    </Text> way to
-                    {'\n'}
-                    sign transactions
-                    {'\n'}
-                    on Ethereum
-                </Text>
-            </View>
+            <Swiper showsPagination={false} autoplay autoplayTimeout={5} loop style={{}}>
+                {item("Secure", " way to \nsign transactions on Ethereum")}
+                {item("Keep", " your keys absolutely private offline")}
+                {item("No contact", " with Internet while\nsigning transactions")}
+            </Swiper>
+
             <TouchableOpacity style={styles.cta}>
                 <Text style={styles.ctaText}>
                     Let's start
